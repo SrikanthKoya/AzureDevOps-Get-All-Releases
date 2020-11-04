@@ -34,8 +34,8 @@ public class Main {
 		Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-file"));
 		Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-id"));
 		Files.deleteIfExists(Paths.get(currentDirectory + "/" + "output.csv"));
-		
-		java.util.Date startdate=new java.util.Date();  
+
+		java.util.Date startdate = new java.util.Date();
 		System.out.println("Job Started at : " + startdate);
 
 		if (args.length != 1) {
@@ -101,7 +101,12 @@ public class Main {
 
 			conn.disconnect();
 
-			GetReleaseIdDetails.main(args);
+			File f = new File(currentDirectory + "/" + "release-id");
+
+			// Check if the specified file Exists or not
+			if (f.exists()) {
+				GetReleaseIdDetails.main(args);
+			}
 
 			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-file"));
 			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-id"));
@@ -113,8 +118,8 @@ public class Main {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			java.util.Date enddate=new java.util.Date();  
+
+			java.util.Date enddate = new java.util.Date();
 			System.out.println("Job end at : " + enddate);
 
 		} catch (MalformedURLException e) {
