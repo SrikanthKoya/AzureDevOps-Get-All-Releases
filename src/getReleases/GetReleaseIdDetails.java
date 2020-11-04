@@ -77,14 +77,21 @@ public class GetReleaseIdDetails {
 			reader.close();
 			System.out.println("Done !!!");
 			// String[] arguments = new String[] { token };
+
+			File f = new File(currentDirectory + "/" + "release-file");
+
+			// Check if the specified file Exists or not
+
 			try {
-				String fileContent = "RELEASE_NAME" + "," + "PROJECT" + "," + "STATUS" + "," + "ENVIRONMENT" + ","
-						+ "DATETIME";
-				BufferedWriter out = new BufferedWriter(new FileWriter(currentDirectory + "/output.csv", true));
-				out.write(fileContent);
-				out.write("\r\n");
-				out.close();
-				GetFinalDetails.main(args);
+				if (f.exists()) {
+					String fileContent = "RELEASE_NAME" + "," + "PROJECT" + "," + "STATUS" + "," + "ENVIRONMENT" + ","
+							+ "DATETIME";
+					BufferedWriter out = new BufferedWriter(new FileWriter(currentDirectory + "/output.csv", true));
+					out.write(fileContent);
+					out.write("\r\n");
+					out.close();
+					GetFinalDetails.main(args);
+				}
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
