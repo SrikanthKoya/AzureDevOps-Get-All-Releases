@@ -5,28 +5,20 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
 import getReleases.GetFinalDetails;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Scanner;
 
-import org.json.simple.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 
 public class GetReleaseIdDetails {
 
@@ -51,7 +43,7 @@ public class GetReleaseIdDetails {
 
 		token = token1;
 
-		String line0 = Files.readAllLines(Paths.get(currentDirectory + "/release-file")).get(0);
+		String line0 = Files.readAllLines(Paths.get(currentDirectory + "/release")).get(0);
 		String line1 = line0.substring(0, line0.indexOf("_apis") - 1);
 		String[] splits = line1.split("/");
 		projectid = splits[3] + "/" + splits[4];
@@ -60,7 +52,7 @@ public class GetReleaseIdDetails {
 		BufferedReader reader;
 		try {
 			System.out.println("Executing API to get all the release ids for each definition....");
-			reader = new BufferedReader(new FileReader(currentDirectory + "/release-file"));
+			reader = new BufferedReader(new FileReader(currentDirectory + "/release"));
 			String line = reader.readLine();
 			while (line != null) {
 				// System.out.println(line);
@@ -78,7 +70,7 @@ public class GetReleaseIdDetails {
 			System.out.println("Done !!!");
 			// String[] arguments = new String[] { token };
 
-			File f = new File(currentDirectory + "/" + "release-file");
+			File f = new File(currentDirectory + "/" + "release");
 
 			// Check if the specified file Exists or not
 
@@ -95,14 +87,14 @@ public class GetReleaseIdDetails {
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
-				Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-file"));
-				Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-id"));
+				Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release"));
+				Files.deleteIfExists(Paths.get(currentDirectory + "/" + "id"));
 				System.exit(1);
 			}
 
 		} catch (IOException e) {
-			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-file"));
-			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-id"));
+			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release"));
+			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "id"));
 			e.printStackTrace();
 		}
 	}
@@ -154,7 +146,7 @@ public class GetReleaseIdDetails {
 
 			for (String string : releaseids) {
 				// System.out.println(string);
-				BufferedWriter out = new BufferedWriter(new FileWriter(currentDirectory + "/release-id", true));
+				BufferedWriter out = new BufferedWriter(new FileWriter(currentDirectory + "/id", true));
 				out.write(string);
 				out.write("\r\n");
 				out.close();
