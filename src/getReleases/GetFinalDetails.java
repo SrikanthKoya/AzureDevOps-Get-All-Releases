@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
@@ -15,19 +14,11 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
-
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 
 public class GetFinalDetails {
 
@@ -55,7 +46,7 @@ public class GetFinalDetails {
 		BufferedReader reader;
 		try {
 			System.out.println("Extracting the required details form the release id....");
-			reader = new BufferedReader(new FileReader(currentDirectory + "/release-id"));
+			reader = new BufferedReader(new FileReader(currentDirectory + "/id"));
 			String line = reader.readLine();
 			while (line != null) {
 				// System.out.println(line);
@@ -71,9 +62,9 @@ public class GetFinalDetails {
 					// TODO: handle exception
 					e.printStackTrace();
 					// Files.deleteIfExists(Paths.get(currentDirectory + "/" +
-					// "release-file"));
+					// "release"));
 					// Files.deleteIfExists(Paths.get(currentDirectory + "/" +
-					// "release-id"));
+					// "id"));
 					System.exit(1);
 				}
 
@@ -87,8 +78,8 @@ public class GetFinalDetails {
 			System.out.println("Done !!!");
 
 		} catch (IOException e) {
-			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-file"));
-			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-id"));
+			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release"));
+			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "id"));
 			e.printStackTrace();
 		}
 	}
@@ -125,6 +116,14 @@ public class GetFinalDetails {
 				String url1 = (String) innerObj.get("name");
 				String name = (String) innerObj.get("status");
 				String modifiedOn = (String) innerObj.get("modifiedOn");
+//				System.out.println(modifiedOn);
+				if (modifiedOn == null || modifiedOn.length() == 0) {
+//					System.out.println("null received");
+				} else {
+//					System.out.println(modifiedOn);
+					modifiedOn = modifiedOn.substring(0, 10);
+//					System.out.println(modifiedOn);
+				}
 				String fileContent = name + "," + url1;
 				BufferedWriter out = new BufferedWriter(new FileWriter(currentDirectory + "/output.csv", true));
 				out.write(releasename + "," + project + "," + fileContent + "," + modifiedOn);
