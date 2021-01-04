@@ -3,8 +3,6 @@ package getReleases;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,8 +29,8 @@ public class Main {
 
 	public static void main(String[] args) throws ParseException, IOException {
 
-		Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-file"));
-		Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-id"));
+		Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release"));
+		Files.deleteIfExists(Paths.get(currentDirectory + "/" + "id"));
 		Files.deleteIfExists(Paths.get(currentDirectory + "/" + "output.csv"));
 
 		java.util.Date startdate = new java.util.Date();
@@ -68,6 +66,8 @@ public class Main {
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Accept", "application/json");
 			conn.setRequestProperty("Authorization", "Basic " + token);
+			System.out.println("current directory is : "+ currentDirectory);
+			System.out.println("https://vsrm.dev.azure.com/" + project + "/_apis/release/definitions?api-version=5.1");
 
 			if (conn.getResponseCode() != 200) {
 				throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
@@ -93,7 +93,8 @@ public class Main {
 				String url1 = (String) innerObj.get("url");
 				String name = (String) innerObj.get("name");
 				String fileContent = name + "@" + url1;
-				BufferedWriter out = new BufferedWriter(new FileWriter(currentDirectory + "/release-file", true));
+//				System.out.println(fileContent);
+				BufferedWriter out = new BufferedWriter(new FileWriter(currentDirectory +"/"+ "release", true));
 				out.write(fileContent);
 				out.write("\r\n");
 				out.close();
@@ -101,15 +102,15 @@ public class Main {
 
 			conn.disconnect();
 
-			File f = new File(currentDirectory + "/" + "release-id");
+			File f = new File(currentDirectory + "/" + "release");
 
 			// Check if the specified file Exists or not
 			if (f.exists()) {
 				GetReleaseIdDetails.main(args);
 			}
 
-			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-file"));
-			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-id"));
+			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release"));
+			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "id"));
 
 			try {
 				System.gc();
@@ -125,14 +126,14 @@ public class Main {
 		} catch (MalformedURLException e) {
 
 			e.printStackTrace();
-			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-file"));
-			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-id"));
+			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release"));
+			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "id"));
 
 		} catch (IOException e) {
 
 			e.printStackTrace();
-			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-file"));
-			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release-id"));
+			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "release"));
+			Files.deleteIfExists(Paths.get(currentDirectory + "/" + "id"));
 
 		}
 
