@@ -16,6 +16,11 @@ How to run the program?
 
 ##############################################################
 
+Create a Personal Access Token
+Add a colon (':') before it
+Encode the new PAT (with the preceding colon) using Base 64
+Et voila ! That PAT will no longer give you a 203 error.
+
 Example :
 --> If the AzureDevops link is https://dev.azure.com/srikanthkoya/CustomProject/_release then the project is below:
 
